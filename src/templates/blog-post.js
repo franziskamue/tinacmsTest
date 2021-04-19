@@ -5,12 +5,15 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
-import { useRemarkForm } from 'gatsby-tinacms-remark'
-import { useForm, usePlugin } from 'tinacms'
+import { useRemarkForm, DeleteAction  } from 'gatsby-tinacms-remark'
+import { usePlugin } from 'tinacms'
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   // Create the form
-  const [post, form] = useRemarkForm(data.markdownRemark)
+  const formOptions = {
+    actions: [DeleteAction]
+  }
+  const [post, form] = useRemarkForm(data.markdownRemark, formOptions)
   usePlugin(form)
   const { previous, next } = pageContext
 
