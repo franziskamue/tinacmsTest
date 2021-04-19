@@ -2,6 +2,8 @@ import React from "react"
 import { Link } from "gatsby"
 import { ThemeToggler } from "gatsby-plugin-dark-mode"
 import { scale } from "../utils/typography"
+import { RemarkCreatorPlugin } from 'gatsby-tinacms-remark'
+import { withPlugin } from 'tinacms'
 
 import Footer from "./footer"
 import "./global.css"
@@ -106,4 +108,54 @@ const Layout = ({ location, title, children }) => {
   )
 }
 
-export default Layout
+const CreateBlogPlugin = new RemarkCreatorPlugin( {
+  label: 'Add New Blog',
+  filename: form => {
+    const slug = form.title.replace(/\s+/g, '-').toLowerCase()
+    return `content/blog/${slug}/index.md`
+  },
+   fields: [
+    {
+      name: 'title',
+      component: 'text',
+      label: 'Title',
+      description: 'The title of your new post',
+      required: true
+    },
+    /*{
+     name: 'date',
+     component: 'date',
+     label: 'Date',
+     description: 'The default will be today'
+   },*/
+   {
+     name: 'description',
+     component: 'text',
+     label: 'Description',
+     description: 'What is this about?'
+   },
+   {
+    name: 'body',
+    component: 'text',
+    label: 'Body',
+    description: 'Your blog post here'
+  }
+  ],
+  frontmatter: postInfo => ({
+    title: postInfo.title,
+    date: postInfo.date ? postInfo.date : new Date(),
+    description: postInfo.description ? postInfo.description: "This is the description"
+  }),
+ 
+  // 2. Add a default markdown body
+  body: postInfo => {
+    if(postInfo.body) return postInfo.body
+    return "This is a blog post"
+  }
+})
+
+// 3. Export the component & `content-creator` plugin
+export default withPlugin(Layout, CreateBlogPlugin)
+
+//export default Layout
+
