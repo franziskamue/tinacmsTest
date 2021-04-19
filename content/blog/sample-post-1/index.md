@@ -1,5 +1,5 @@
 ---
-title: Sample Posts
+title: Sample Posts 2
 date: '2020-07-27T07:26:03.284Z'
 description: >-
   Just about everything you'll need to style in the theme: headings, paragraphs,
