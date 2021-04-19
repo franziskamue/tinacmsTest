@@ -1,3 +1,6 @@
+const path = require('path')
+const REPO_ABSOLUTE_PATH = path.join(process.cwd(), './')
+
 module.exports = {
   pathPrefix: "/leonids",
   siteMetadata: {
@@ -19,6 +22,19 @@ module.exports = {
       options: {
         path: `${__dirname}/content/blog`,
         name: `blog`,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-tinacms',
+      options: {
+        // The CMS will be disabled on your production site
+        enabled: process.env.NODE_ENV !== 'production',
+        sidebar: true,
+        plugins: [
+          'gatsby-tinacms-git',
+          'gatsby-tinacms-json',
+          'gatsby-tinacms-remark',
+        ],
       },
     },
     {

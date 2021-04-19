@@ -5,10 +5,13 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
+import { useRemarkForm } from 'gatsby-tinacms-remark'
+import { useForm, usePlugin } from 'tinacms'
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
-  const post = data.markdownRemark
-  // const siteTitle = data.site.siteMetadata.title
+  // Create the form
+  const [post, form] = useRemarkForm(data.markdownRemark)
+  usePlugin(form)
   const { previous, next } = pageContext
 
   return (
@@ -79,14 +82,10 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
 
 export default BlogPostTemplate
 
-export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
-    site {
-      siteMetadata {
-        title
-      }
-    }
+export const blogPostQuery = graphql`
+  query BlogPostQuery($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
+      ...TinaRemark
       id
       excerpt(pruneLength: 160)
       html
