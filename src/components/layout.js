@@ -3,12 +3,14 @@ import { Link } from "gatsby"
 import { ThemeToggler } from "gatsby-plugin-dark-mode"
 import { scale } from "../utils/typography"
 import { RemarkCreatorPlugin } from 'gatsby-tinacms-remark'
-import { withPlugin } from 'tinacms'
+import { usePlugins , withPlugin } from 'tinacms'
+import { DateFieldPlugin } from "react-tinacms-date"
 
 import Footer from "./footer"
 import "./global.css"
 
 const Layout = ({ location, title, children }) => {
+  usePlugins([DateFieldPlugin])
   const toggle = (
     <ThemeToggler>
       {({ toggleTheme, theme }) => {
@@ -122,12 +124,13 @@ const CreateBlogPlugin = new RemarkCreatorPlugin( {
       description: 'The title of your new post',
       required: true
     },
-    /*{
-     name: 'date',
-     component: 'date',
-     label: 'Date',
-     description: 'The default will be today'
-   },*/
+    {
+      name: "date",
+      label: "Created At",
+      component: "date",
+      dateFormat: 'YYYY-MM-DD',
+      timeFormat: false,
+    },
    {
      name: 'description',
      component: 'text',
