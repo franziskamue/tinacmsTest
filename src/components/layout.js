@@ -136,7 +136,7 @@ const CreateBlogPlugin = new RemarkCreatorPlugin( {
    },
    {
     name: 'body',
-    component: 'text',
+    component: 'markdown',
     label: 'Body',
     description: 'Your blog post here'
   }
